@@ -6,7 +6,7 @@ from pdf2image import convert_from_bytes
 st.title("PDF to Excel using OCR (Multiple Files)")
 
 pdf_files = st.file_uploader(
-    "Upload PDF files (max 15)",
+    "Upload PDF files",
     type="pdf",
     accept_multiple_files=True
 )
@@ -44,3 +44,4 @@ if pdf_files and len(pdf_files) <= 15:
 
 elif pdf_files and len(pdf_files) > 15:
     st.warning("Please upload a maximum of 15 PDF files.")
+
