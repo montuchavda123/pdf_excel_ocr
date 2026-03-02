@@ -28,7 +28,7 @@ if pdf_file:
 
         df.to_excel("output.xlsx", index=False)
         st.download_button(
-            label="Download Excel",
+            "Download Excel",
             data=open("output.xlsx", "rb"),
             file_name="output.xlsx",
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
