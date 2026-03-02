@@ -2,5 +2,5 @@ streamlit
 pandas
 pytesseract
 pdf2image
-Pillow
 openpyxl
+Pillow
