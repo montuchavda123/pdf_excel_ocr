@@ -3,9 +3,13 @@ import pandas as pd
 import pytesseract
 from pdf2image import convert_from_bytes
 
-st.title("PDF to Excel using OCR")
+st.title("PDF to Excel using OCR (Multiple Files)")
 
-pdf_file = st.file_uploader("Upload PDF", type="pdf")
+pdf_files = st.file_uploader(
+    "Upload PDF files (max 15)",
+    type="pdf",
+    accept_multiple_files=True
+)
 
 def ocr_pdf(pdf_file):
     pages = convert_from_bytes(pdf_file.read(), dpi=300)
@@ -19,17 +23,24 @@ def ocr_pdf(pdf_file):
 
     return pd.DataFrame(rows, columns=["Page", "Line", "Text"])
 
-if pdf_file:
-    if st.button("Convert"):
-        df = ocr_pdf(pdf_file)
+if pdf_files and len(pdf_files) <= 15:
+    if st.button("Convert to Excel"):
+        output_file = "ocr_output.xlsx"
 
-        st.success("OCR Completed")
-        st.dataframe(df)
+        with pd.ExcelWriter(output_file, engine="openpyxl") as writer:
+            for pdf in pdf_files:
+                df = ocr_pdf(pdf)
+                sheet_name = pdf.name[:31]  # Excel sheet name limit
+                df.to_excel(writer, sheet_name=sheet_name, index=False)
 
-        df.to_excel("output.xlsx", index=False)
+        st.success("OCR completed for all PDFs")
+
         st.download_button(
             "Download Excel",
-            data=open("output.xlsx", "rb"),
-            file_name="output.xlsx",
+            data=open(output_file, "rb"),
+            file_name=output_file,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
+
+elif pdf_files and len(pdf_files) > 15:
+    st.warning("Please upload a maximum of 15 PDF files.")
