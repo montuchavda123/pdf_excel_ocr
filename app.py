@@ -2,7 +2,7 @@ import streamlit as st
 import pdfplumber, pandas as pd, pytesseract
 from pdf2image import convert_from_bytes
 
-st.title("PDF Table to Excel (Table + OCR)")
+st.title("PDF Table to Excel")
 
 pdf_files = st.file_uploader("Upload PDF files", type="pdf", accept_multiple_files=True)
 
@@ -37,3 +37,4 @@ if pdf_files and st.button("Convert to Excel"):
 
     st.success("PDFs converted to Excel successfully!")
     st.download_button("Download Excel", data=open(output_file,"rb"), file_name=output_file)
+
