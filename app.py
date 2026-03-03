@@ -16,7 +16,9 @@ def extract_grn_data(pdf):
             text += page.extract_text() + "\n"
     
     # Extract required fields using regex
-    data["File Name"] = pdf.name
+    # Extract FR number from file name
+    fr_match = re.search(r"(FR-\d+)", pdf.name)
+    data["FR Number"] = fr_match.group(1) if fr_match else ""
     
     data["GRN No"] = re.search(r"GRN No\s*:\s*(\S+)", text).group(1) if re.search(r"GRN No\s*:\s*(\S+)", text) else ""
     
@@ -95,4 +97,5 @@ if pdf_files and st.button("Convert to Excel"):
     
     with open(output_file, "rb") as f:
         st.download_button("Download Excel", f, file_name=output_file)
+
 
