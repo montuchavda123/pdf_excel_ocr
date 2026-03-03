@@ -41,8 +41,35 @@ def extract_grn_data(pdf):
     data["Account Number"] = re.search(r"Account Number\s*(\d+)", text)
     data["Account Number"] = data["Account Number"].group(1) if data["Account Number"] else ""
     
-    data["Commodity Name"] = re.search(r"Commodity Name\s*(.*)", text)
-    data["Commodity Name"] = data["Commodity Name"].group(1).strip() if data["Commodity Name"] else ""
+    # ---------------- WEIGHTMENT DETAILS ----------------
+    data["Gross Wt (Kgs)"] = re.search(r"Gross Wt\(Kgs\)\s*(\d+)", text)
+    data["Gross Wt (Kgs)"] = data["Gross Wt (Kgs)"].group(1) if data["Gross Wt (Kgs)"] else ""
+    
+    data["Nett Weight (Kgs)"] = re.search(r"Nett Weights\(Kgs\)\s*(\d+)", text)
+    data["Nett Weight (Kgs)"] = data["Nett Weight (Kgs)"].group(1) if data["Nett Weight (Kgs)"] else ""
+    
+    data["Pay Weight (Kgs)"] = re.search(r"Pay Weights\(Kgs\)\s*(\d+)", text)
+    data["Pay Weight (Kgs)"] = data["Pay Weight (Kgs)"].group(1) if data["Pay Weight (Kgs)"] else ""
+    
+    data["Bags Count"] = re.search(r"Bags Count\s*(\d+)", text)
+    data["Bags Count"] = data["Bags Count"].group(1) if data["Bags Count"] else ""
+    
+    
+    # ---------------- QUALITY DETAILS ----------------
+    data["Matti %"] = re.search(r"Matti\s*\.?(\d+\.?\d*)", text)
+    data["Matti %"] = data["Matti %"].group(1) if data["Matti %"] else ""
+    
+    data["Damaged %"] = re.search(r"Damaged\s*(\d+\.?\d*)", text)
+    data["Damaged %"] = data["Damaged %"].group(1) if data["Damaged %"] else ""
+    
+    data["Fotri %"] = re.search(r"Fotri\s*(\d+\.?\d*)", text)
+    data["Fotri %"] = data["Fotri %"].group(1) if data["Fotri %"] else ""
+    
+    data["Moisture %"] = re.search(r"Moisture\s*(\d+\.?\d*)", text)
+    data["Moisture %"] = data["Moisture %"].group(1) if data["Moisture %"] else ""
+    
+    data["Dabba Weight"] = re.search(r"Dabba Weight\s*(\d+)", text)
+    data["Dabba Weight"] = data["Dabba Weight"].group(1) if data["Dabba Weight"] else ""
     
     data["Total Value"] = re.search(r"Total Value\s*([\d,\.]+)", text)
     data["Total Value"] = data["Total Value"].group(1) if data["Total Value"] else ""
@@ -68,3 +95,4 @@ if pdf_files and st.button("Convert to Excel"):
     
     with open(output_file, "rb") as f:
         st.download_button("Download Excel", f, file_name=output_file)
+
