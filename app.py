@@ -2,7 +2,7 @@ import streamlit as st
 import pdfplumber
 import pandas as pd
 
-st.title("PDF Table to Excel (Multiple PDFs → Multiple Sheets)")
+st.title("PDF Table to Excel")
 
 pdf_files = st.file_uploader(
     "Upload up to 10 PDF files",
@@ -58,3 +58,4 @@ if pdf_files:
                 file_name=output_file,
                 mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
+
